@@ -1,7 +1,8 @@
 
 import streamlit as st
 import pandas as pd
-
+import plotly.express as px
+from database import create_tables
 from datetime import date
 from textwrap import dedent
 
@@ -38,7 +39,8 @@ from smart_insights import (
     detect_unusual_spending
 )
 
-
+# Initialize database tables
+create_tables()
 # ==========================================================
 # 1. PAGE CONFIGURATION
 # ==========================================================
@@ -2375,7 +2377,6 @@ def show_smart_insights():
         "category_totals",
         {}
     )
-
     if category_totals:
 
         category_df = pd.DataFrame(
@@ -2388,9 +2389,46 @@ def show_smart_insights():
             ascending=False
         )
 
-        st.bar_chart(
-            category_df.set_index("Category"),
-            y="Amount"
+        fig = px.bar(
+            category_df,
+            x="Category",
+            y="Amount",
+            color_discrete_sequence=["#82C7F8"],
+            text_auto=".2s"
+        )
+
+        fig.update_layout(
+            plot_bgcolor="#FFFFFF",
+            paper_bgcolor="#FFFFFF",
+            font=dict(
+                family="Arial",
+                color="#263B35",
+                size=12
+            ),
+            xaxis=dict(
+                title="Category",
+                showgrid=False,
+                zeroline=False
+            ),
+            yaxis=dict(
+                title="Amount (₹)",
+                showgrid=True,
+                gridcolor="#E8EEEB",
+                zeroline=False
+            ),
+            margin=dict(l=20, r=20, t=20, b=20),
+            height=400
+        )
+
+        fig.update_traces(
+            textposition="outside",
+            marker_line_width=0
+        )
+
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+            config={"displayModeBar": False}
         )
 
     else:
