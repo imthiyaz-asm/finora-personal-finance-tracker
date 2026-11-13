@@ -1,0 +1,25 @@
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.venv/
+
+# Environment variables and API secrets
+.env
+.env.*
+.streamlit/secrets.toml
+
+# Personal finance database
+finance.db
+*.sqlite
+*.sqlite3
+
+# IDE files
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
